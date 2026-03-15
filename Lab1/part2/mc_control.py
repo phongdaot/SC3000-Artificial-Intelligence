@@ -3,8 +3,12 @@ from collections import defaultdict
 from tqdm import tqdm
 from mdp import GridWorld5x5Env
 import matplotlib.pyplot as plt
-from utils import eps_greedy_action_from_Q, greedy_policy_from_Q, plot_learning_curve, plot_q_heatmaps, print_policy_from_stateid
+from utils import eps_greedy_action_from_Q, greedy_policy_from_Q, plot_learning_curve, plot_q_heatmaps, print_policy_from_stateid, compare_policies_plot
+from iteration import value_iteration, policy_iteration
 import os
+
+
+
 SAVE_DIR = "results/task2"
 
 # -----------------------
@@ -77,9 +81,8 @@ def mc_control(env: GridWorld5x5Env, episodes=2000, eps=0.1, gamma=0.9, max_step
 # Run
 # -----------------------
 if __name__ == "__main__":
-    env = GridWorld5x5Env(gamma=0.9, stochastic=True) # Task 2 setting (unknown stochastic dynamics)
+    env = GridWorld5x5Env(gamma=0.9, stochastic=True, seed=42) # Task 2 setting (unknown stochastic dynamics)
     Q_mc, pi_mc, returns, lengths = mc_control(env, episodes=20000, eps=0.1, gamma=0.9, max_steps=500)
-
     print("=== MC Learned Greedy Policy (trained with ε=0.1) ===")
     print_policy_from_stateid(env, pi_mc)
 

@@ -1,10 +1,12 @@
 from collections import defaultdict
 from tqdm import tqdm
+from iteration import value_iteration
+from mc_control import mc_control
 from mdp import GridWorld5x5Env
 import matplotlib.pyplot as plt
-from utils import eps_greedy_action_from_Q, greedy_policy_from_Q, plot_learning_curve, plot_q_heatmaps, print_policy_from_stateid
+from utils import compare_policies_plot, eps_greedy_action_from_Q, greedy_policy_from_Q, plot_learning_curve, plot_q_heatmaps, print_policy_from_stateid, compare_learning_curves
 import os
-
+import numpy as np
 SAVE_DIR = "results/task3"
 
 def q_learning(env, episodes=2000, eps=0.1, alpha=0.1, gamma=0.9, max_steps=500):
@@ -61,9 +63,9 @@ def q_learning(env, episodes=2000, eps=0.1, alpha=0.1, gamma=0.9, max_steps=500)
     return Q, pi_greedy, returns, lengths
 
 if __name__ == "__main__":
-    env = GridWorld5x5Env(gamma=0.9, stochastic=False)
+    env = GridWorld5x5Env(gamma=0.9, stochastic=True, seed=42)
     Q, pi_greedy, returns, lengths = q_learning(env, episodes=20000, eps=0.1, alpha=0.1, gamma=0.9, max_steps=500)
-
+    
     print("=== Q-Learning Learned Greedy Policy (trained with ε=0.1) ===")
     print_policy_from_stateid(env, pi_greedy)
 
